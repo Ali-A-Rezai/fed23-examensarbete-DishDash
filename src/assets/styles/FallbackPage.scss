@@ -1,0 +1,75 @@
+.fallback-page {
+  height: 100vh;
+  background: url("../images/fallback-image.jpg") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.fallback-content {
+  position: relative;
+  padding: 30px 40px;
+  background-color: rgba(0, 0, 0, 0.85);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  width: 100%;
+  max-width: 600px;
+  color: white;
+}
+
+.error-code {
+  font-size: 6rem;
+  font-weight: bold;
+  color: #ff6347;
+  margin-bottom: 20px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.message {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 30px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.back-home {
+  display: inline-block;
+  padding: 15px 35px;
+  font-size: 1.1rem;
+  background-color: #ff6347;
+  color: #fff;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(255, 99, 71, 0.2);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+
+  &:hover {
+    background-color: #ff4500;
+    transform: translateY(-5px);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .error-code {
+    font-size: 4rem;
+  }
+
+  .message {
+    font-size: 1rem;
+    padding: 0 20px;
+  }
+
+  .back-home {
+    font-size: 1rem;
+    padding: 12px 30px;
+  }
+}

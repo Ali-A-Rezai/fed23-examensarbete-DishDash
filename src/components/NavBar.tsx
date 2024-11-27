@@ -18,9 +18,6 @@ const NavigationBar: React.FC = () => {
       </Navbar.Brand>
       <Navbar.Collapse id="navbar-nav">
         <Nav className="ms-auto d-flex flex-row">
-          <Nav.Link as={Link} to="/" className="text-white">
-            Home
-          </Nav.Link>
           <Nav.Link as={Link} to="/recipes" className="text-white">
             Recipes
           </Nav.Link>

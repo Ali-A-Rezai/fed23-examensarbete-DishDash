@@ -21,9 +21,16 @@
     transition: color 0.3s ease;
     text-decoration: none;
     margin-right: 180px;
+    transition: color 0.3s ease, transform 0.3s ease;
 
     &:hover {
+      color: tomato;
+      transform: translateY(-2px);
+    }
+
+    &.active {
       color: #f8f9fa;
+      font-weight: bold;
     }
   }
 
@@ -37,7 +44,7 @@
     text-decoration: none;
 
     &:hover {
-      color: #f8f9fa;
+      color: tomato;
     }
   }
 }
