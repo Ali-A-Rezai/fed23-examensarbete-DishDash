@@ -9,7 +9,8 @@ import {
 import { db, collection, addDoc } from "../firebase/firebase-config";
 
 const SPOONACULAR_API_URL = "https://api.spoonacular.com/recipes";
-const apiKey = process.env.SPOONACULAR_API_KEY;
+const apiKey = import.meta.env.VITE_SPOONACULAR_API_KEY;
+const numberOfRecipes = 15;
 
 if (!apiKey) {
   throw new Error("Spoonacular API key is missing🚨");
@@ -28,7 +29,7 @@ const fetchApi = async <T>(url: string): Promise<T> => {
 
 // Hämtar slumpmässiga recept från Spoonacular API
 export const getRandomRecipes = async (): Promise<Recipe[]> => {
-  const url = `${SPOONACULAR_API_URL}/random?apiKey=${apiKey}`;
+  const url = `${SPOONACULAR_API_URL}/random?apiKey=${apiKey}&number=${numberOfRecipes}`;
 
   const data = await fetchApi<{ recipes: Recipe[] }>(url);
   return data.recipes;
