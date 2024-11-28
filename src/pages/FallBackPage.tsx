@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../assets/styles/FallbackPage.scss";
+import "../assets/styles/Pages/FallbackPage.scss";
 
 const FallbackPage: React.FC = () => {
   return (

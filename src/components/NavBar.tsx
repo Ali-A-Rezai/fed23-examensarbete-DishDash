@@ -2,7 +2,7 @@ import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import "../assets/styles/NavBar.scss";
+import "../assets/styles/components/NavBar.scss";
 
 const NavigationBar: React.FC = () => {
   return (
