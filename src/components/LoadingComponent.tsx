@@ -1,6 +1,6 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
-import "../assets/styles/components/Loading.scss";
+import "../assets/styles/components-style/Loading.scss";
 
 interface LoadingComponentProps {
   message?: string;

@@ -6,7 +6,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from "react-icons/fa";
-import "../assets/styles/components/Footer.scss";
+import "../assets/styles/components-style/Footer.scss";
 
 const Footer: React.FC = () => {
   return (

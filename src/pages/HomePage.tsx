@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button, Container } from "react-bootstrap";
 import FavoriteRecipes from "../components/PopularRecipes";
-import "../assets/styles/Pages/HomePage.scss";
+import "../assets/styles/Pages-style/HomePage.scss";
 
 const HomePage: React.FC = () => {
   const easing = [0.6, -0.05, 0.01, 0.99];

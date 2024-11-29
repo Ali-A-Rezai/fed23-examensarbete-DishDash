@@ -6,7 +6,7 @@ import { Recipe } from "../types/recipe";
 import LoadingComponent from "./LoadingComponent";
 import ErrorComponent from "./ErrorComponent";
 import scroll from "../utils/scroll";
-import "../assets/styles/components/PopularRecipes.scss";
+import "../assets/styles/components-style/PopularRecipes.scss";
 
 interface FavoriteRecipesProps {
   loadingMessage?: string;

@@ -1,5 +1,5 @@
 import React from "react";
-import "../assets/styles/components/Error.scss";
+import "../assets/styles/components-style/Error.scss";
 
 interface ErrorComponentProps {
   message?: string;
