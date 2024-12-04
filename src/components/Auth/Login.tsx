@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import GoogleIcon from "../../assets/images/Google_logo.png";
 import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useLoginActions } from "../../utils/hooks/useAuthActions";
+import ErrorComponent from "../ErrorComponent";
 import "../../assets/styles/components-style/Auth.scss";
 
 const login = async (data: { email: string; password: string }) => {
@@ -26,13 +27,9 @@ const loginWithGoogle = async () => {
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-
-  const {
-    loading: authLoading,
-    error: authError,
-    handleLogin,
-    handleGoogleLogin,
-  } = useLoginActions(login, loginWithGoogle, navigate);
+  const location = useLocation();
+  const { loading, error, successMessage, handleLogin, handleGoogleLogin } =
+    useLoginActions(login, loginWithGoogle, navigate);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -41,20 +38,29 @@ const Login: React.FC = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
     "success"
   );
+  const [showError, setShowError] = useState(false);
 
-  const handleLoginClick = (e: React.FormEvent) => {
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const redirected = searchParams.get("redirected");
+
+    if (redirected) {
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 5000);
+    }
+  }, [location.search]);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (email && password) {
       handleLogin({ email, password })
         .then(() => {
-          setSnackbarMessage("Login successful!");
+          setSnackbarMessage(successMessage || "Login successful!");
           setSnackbarSeverity("success");
           setOpenSnackbar(true);
-
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
         })
         .catch(() => {
           setSnackbarMessage("Failed to login. Please check your credentials.");
@@ -68,137 +74,138 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleGoogleLoginClick = () => {
-    handleGoogleLogin()
-      .then(() => {
-        setSnackbarMessage("Welcome Back!");
-        setSnackbarSeverity("success");
-        setOpenSnackbar(true);
-
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      })
-      .catch(() => {
-        setSnackbarMessage("Failed to login with Google.");
-        setSnackbarSeverity("error");
-        setOpenSnackbar(true);
-      });
+  const handleGoogleLoginClick = async () => {
+    try {
+      await handleGoogleLogin();
+      setSnackbarMessage("Google login successful!");
+      setSnackbarSeverity("success");
+      setOpenSnackbar(true);
+    } catch (err) {
+      console.log("Failed to login with Google.", err);
+      setSnackbarMessage("Failed to login with Google. Please try again.");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    }
   };
 
   return (
-    <Container className="auth-container">
-      <Box
-        sx={{
-          maxWidth: 400,
-          margin: "auto",
-          mt: 8,
-          padding: 4,
-          borderRadius: 2,
-          boxShadow: 3,
-          textAlign: "center",
-          backgroundColor: "white",
-        }}
-      >
-        <Typography variant="h4" sx={{ mb: 2 }}>
-          Login
-        </Typography>
+    <>
+      {showError && <ErrorComponent message="Please login first." />}
 
-        {authError && (
-          <Typography color="error" sx={{ mb: 2 }}>
-            {authError}
+      <Container className="auth-container">
+        <Box
+          sx={{
+            maxWidth: 400,
+            margin: "auto",
+            mt: 8,
+            padding: 4,
+            borderRadius: 2,
+            boxShadow: 3,
+            textAlign: "center",
+            backgroundColor: "white",
+          }}
+        >
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            Login
           </Typography>
-        )}
 
-        <form onSubmit={handleLoginClick}>
-          <TextField
-            label="Email"
-            type="email"
-            fullWidth
-            sx={{ mb: 2 }}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-          />
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            sx={{ mb: 2 }}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
+          {error && (
+            <Typography color="error" sx={{ mb: 2 }}>
+              {error}
+            </Typography>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Email"
+              type="email"
+              fullWidth
+              sx={{ mb: 2 }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+            />
+            <TextField
+              label="Password"
+              type="password"
+              fullWidth
+              sx={{ mb: 2 }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
+
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mb: 2 }}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Login"
+              )}
+            </Button>
+          </form>
+
+          <Divider sx={{ my: 2 }}>OR</Divider>
 
           <Button
-            variant="contained"
-            color="primary"
+            variant="outlined"
+            color="secondary"
             fullWidth
-            sx={{ mb: 2 }}
-            type="submit"
-            disabled={authLoading}
+            onClick={handleGoogleLoginClick}
+            disabled={loading}
+            startIcon={
+              <img
+                src={GoogleIcon}
+                alt="Google logo"
+                style={{ width: 24, height: 24 }}
+              />
+            }
           >
-            {authLoading ? (
+            {loading ? (
               <CircularProgress size={24} color="inherit" />
             ) : (
-              "Login"
+              "Login with Google"
             )}
           </Button>
-        </form>
 
-        <Divider sx={{ my: 2 }}>OR</Divider>
-
-        <Button
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          onClick={handleGoogleLoginClick}
-          disabled={authLoading}
-          startIcon={
-            <img
-              src={GoogleIcon}
-              alt="Google logo"
-              style={{ width: 24, height: 24 }}
-            />
-          }
-        >
-          {authLoading ? (
-            <CircularProgress size={24} color="inherit" />
-          ) : (
-            "Login with Google"
-          )}
-        </Button>
-        <Typography
-          variant="body2"
-          sx={{ mt: 2 }}
-          color="textSecondary"
-          pt="40px"
-        >
-          Don't have an account?{" "}
           <Typography
-            component="span"
-            color="primary"
-            sx={{ cursor: "pointer", fontWeight: "bold" }}
-            onClick={() => navigate("/signup")}
+            variant="body2"
+            sx={{ mt: 2 }}
+            color="textSecondary"
+            pt="40px"
           >
-            Signup here
+            Don't have an account?{" "}
+            <Typography
+              component="span"
+              color="primary"
+              sx={{ cursor: "pointer", fontWeight: "bold" }}
+              onClick={() => navigate("/signup")}
+            >
+              Signup here
+            </Typography>
           </Typography>
-        </Typography>
-      </Box>
+        </Box>
 
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(false)}
-      >
-        <Alert
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
           onClose={() => setOpenSnackbar(false)}
-          severity={snackbarSeverity}
         >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-    </Container>
+          <Alert
+            onClose={() => setOpenSnackbar(false)}
+            severity={snackbarSeverity}
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
+      </Container>
+    </>
   );
 };
 

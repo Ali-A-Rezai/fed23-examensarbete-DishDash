@@ -33,53 +33,6 @@ const Signup: React.FC = () => {
     "success"
   );
 
-  const handleSignupResult = (isSuccess: boolean, errorMessage?: string) => {
-    if (isSuccess) {
-      setSnackbarMessage("Signup successful!");
-      setSnackbarSeverity("success");
-      setOpenSnackbar(true);
-
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    } else {
-      setSnackbarMessage(errorMessage || "Failed to signup. Please try again.");
-      setSnackbarSeverity("error");
-      setOpenSnackbar(true);
-    }
-  };
-
-  const handleGoogleSignupClick = async () => {
-    try {
-      setSnackbarMessage("Signing up with Google...");
-      setSnackbarSeverity("success");
-      setOpenSnackbar(true);
-
-      await handleGoogleSignup();
-
-      setSnackbarMessage("Google signup successful!");
-      setSnackbarSeverity("success");
-      setOpenSnackbar(true);
-
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    } catch (err) {
-      console.log("Google signup failed. Please try again.", err);
-      setSnackbarMessage("Google signup failed. Please try again.");
-      setSnackbarSeverity("error");
-      setOpenSnackbar(true);
-    }
-  };
-
-  const handleSignupClick = () => {
-    if (validateForm()) {
-      handleSignup(formValues)
-        .then(() => handleSignupResult(true))
-        .catch((err) => handleSignupResult(false, err.message));
-    }
-  };
-
   return (
     <Container className="auth-container">
       <Box
@@ -97,6 +50,7 @@ const Signup: React.FC = () => {
         <Typography variant="h4" sx={{ mb: 2 }}>
           Signup
         </Typography>
+
         {error && (
           <Typography color="error" sx={{ mb: 2 }}>
             {error}
@@ -153,7 +107,23 @@ const Signup: React.FC = () => {
             color="primary"
             fullWidth
             sx={{ mb: 2 }}
-            onClick={handleSignupClick}
+            onClick={() => {
+              if (validateForm()) {
+                handleSignup(formValues)
+                  .then(() => {
+                    setSnackbarMessage("Signup successful!");
+                    setSnackbarSeverity("success");
+                    setOpenSnackbar(true);
+                  })
+                  .catch((err) => {
+                    setSnackbarMessage(
+                      err.message || "Failed to signup. Please try again."
+                    );
+                    setSnackbarSeverity("error");
+                    setOpenSnackbar(true);
+                  });
+              }
+            }}
             disabled={loading}
             type="submit"
           >
@@ -171,7 +141,22 @@ const Signup: React.FC = () => {
           variant="outlined"
           color="secondary"
           fullWidth
-          onClick={handleGoogleSignupClick}
+          onClick={() => {
+            handleGoogleSignup()
+              .then(() => {
+                setSnackbarMessage("Signup with Google successful!");
+                setSnackbarSeverity("success");
+                setOpenSnackbar(true);
+              })
+              .catch((err) => {
+                console.log("Failed to signup with Google.", err);
+                setSnackbarMessage(
+                  "Failed to signup with Google. Please try again."
+                );
+                setSnackbarSeverity("error");
+                setOpenSnackbar(true);
+              });
+          }}
           disabled={loading}
           startIcon={
             <img
