@@ -11,6 +11,7 @@ import {
 } from "../../services/authService";
 import LoadingComponent from "../LoadingComponent";
 import ErrorComponent from "../ErrorComponent";
+import { SignupFormValues } from "../../types/form";
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -39,19 +40,26 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(user);
       setError(null);
     } catch (err) {
-      console.error("Login failed:", err);
+      console.log(
+        "Login failed. Please check your credentials and try again.",
+        err
+      );
       setError("Login failed. Please check your credentials and try again.");
     }
   };
 
-  const handleSignup = async (email: string, password: string) => {
+  const handleSignup = async (formValues: SignupFormValues) => {
     try {
-      const user = await signup(email, password);
+      const { email, password, firstName, lastName } = formValues;
+      const user = await signup(email, password, firstName, lastName);
       setUser(user);
       setError(null);
     } catch (err) {
-      console.error("Signup failed:", err);
-      setError("Signup failed. Please try again. Error:");
+      console.log(
+        "Signup failed. Please check your credentials and try again.",
+        err
+      );
+      setError("Signup failed. Please try again.");
     }
   };
 
@@ -61,7 +69,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(null);
       setError(null);
     } catch (err) {
-      console.error("Logout failed:", err);
+      console.log("Logout failed.", err);
       setError("Logout failed. Please try again.");
     }
   };
@@ -72,7 +80,10 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser(user);
       setError(null);
     } catch (err) {
-      console.error("Google login/signup failed:", err);
+      console.log(
+        "Signup failed. Please check your credentials and try again.",
+        err
+      );
       setError("Google login failed. Please try again.");
     }
   };
@@ -80,24 +91,20 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const value: AuthContextType = useMemo(
     () => ({
       user,
+      loading,
+      error,
       login: handleLogin,
       signup: handleSignup,
       logout: handleLogout,
       loginWithGoogle: handleLoginWithGoogle,
     }),
-    [user]
+    [user, loading, error]
   );
 
-  if (loading) {
-    return <LoadingComponent message="loading" />;
-  }
+  if (loading) return <LoadingComponent />;
+  if (error) return <ErrorComponent message={error} />;
 
-  return (
-    <AuthContext.Provider value={value}>
-      {error && <ErrorComponent message="error" />}
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

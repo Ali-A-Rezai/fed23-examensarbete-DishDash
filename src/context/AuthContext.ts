@@ -1,11 +1,12 @@
 import { createContext, useContext } from "react";
 import { User } from "firebase/auth";
+import { SignupFormValues } from "../types/form";
 
 export interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  signup: (email: string, password: string) => Promise<void>;
+  signup: (formValues: SignupFormValues) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
 }
 

@@ -5,16 +5,42 @@ import {
   signInWithPopup,
   signOut,
   User,
+  UserCredential,
 } from "firebase/auth";
-import { auth } from "../firebase/firebase-config";
+import { auth, db } from "../firebase/firebase-config";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
-export const signup = async (email: string, password: string) => {
-  const userCredential = await createUserWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
-  return userCredential.user;
+export const signup = async (
+  email: string,
+  password: string,
+  firstName: string,
+  lastName: string
+) => {
+  try {
+    const userCredential: UserCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    const user = userCredential.user;
+
+    const userRef = doc(db, "users", user.uid);
+    await setDoc(userRef, {
+      firstName,
+      lastName,
+      email,
+    });
+
+    return user;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Signup error: ", error.message);
+      throw new Error(error.message || "Signup failed");
+    }
+    console.error("Unknown error:", error);
+    throw new Error("Signup failed due to an unknown error");
+  }
 };
 
 export const login = async (email: string, password: string) => {
@@ -28,9 +54,31 @@ export const login = async (email: string, password: string) => {
 
 const provider = new GoogleAuthProvider();
 
-export const loginOrSignupWithGoogle = async () => {
-  const result = await signInWithPopup(auth, provider);
-  return result.user;
+export const loginOrSignupWithGoogle = async (): Promise<User> => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    const userRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(userRef);
+
+    if (!docSnap.exists()) {
+      await setDoc(userRef, {
+        firstName: user.displayName?.split(" ")[0] || "",
+        lastName: user.displayName?.split(" ").slice(1).join(" ") || "",
+        email: user.email,
+      });
+    }
+
+    return user;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Google login/signup error: ", error.message);
+      throw new Error(error.message || "Google login/signup failed");
+    }
+    console.error("Unknown error:", error);
+    throw new Error("An unknown error occurred during Google login/signup.");
+  }
 };
 
 export const logout = async () => {

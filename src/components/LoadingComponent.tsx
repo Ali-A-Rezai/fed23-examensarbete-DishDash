@@ -1,5 +1,5 @@
 import React from "react";
-import { Spinner } from "react-bootstrap";
+import { PuffLoader } from "react-spinners";
 import "../assets/styles/components-style/Loading.scss";
 
 interface LoadingComponentProps {
@@ -12,11 +12,7 @@ const LoadingComponent: React.FC<LoadingComponentProps> = ({
   return (
     <div className="loading-overlay">
       <div className="loading-content">
-        <Spinner
-          animation="border"
-          variant="primary"
-          className="loading-spinner"
-        />
+        <PuffLoader color="#28a745" size={100} />
         <p className="loading-message">{message}</p>
       </div>
     </div>
