@@ -8,24 +8,16 @@ export const useAuthActions = (
 ) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleRequest = async (
-    asyncFunction: () => Promise<void>,
-    successMessage: string
-  ) => {
+  const handleRequest = async (asyncFunction: () => Promise<void>) => {
     try {
+      navigate("/profile");
       setLoading(true);
       setError(null);
       await asyncFunction();
       setLoading(false);
-      setSuccessMessage(successMessage);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
     } catch (err: unknown) {
       setLoading(false);
-      setSuccessMessage(null);
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -35,14 +27,14 @@ export const useAuthActions = (
   };
 
   const handleSignup = async (data: SignupFormValues): Promise<void> => {
-    await handleRequest(() => signup(data), "Signup successful!");
+    await handleRequest(() => signup(data));
   };
 
   const handleGoogleSignup = async (): Promise<void> => {
-    await handleRequest(() => loginWithGoogle(), "Google Signup successful!");
+    await handleRequest(() => loginWithGoogle());
   };
 
-  return { loading, error, successMessage, handleSignup, handleGoogleSignup };
+  return { loading, error, handleSignup, handleGoogleSignup };
 };
 
 export const useLoginActions = (
@@ -52,24 +44,16 @@ export const useLoginActions = (
 ) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleRequest = async (
-    asyncFunction: () => Promise<void>,
-    successMessage: string
-  ) => {
+  const handleRequest = async (asyncFunction: () => Promise<void>) => {
     try {
       setLoading(true);
       setError(null);
       await asyncFunction();
       setLoading(false);
-      setSuccessMessage(successMessage);
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      navigate("/profile");
     } catch (err: unknown) {
       setLoading(false);
-      setSuccessMessage(null);
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -79,12 +63,12 @@ export const useLoginActions = (
   };
 
   const handleLogin = async (data: LoginFormValues): Promise<void> => {
-    await handleRequest(() => login(data), "Login successful!");
+    await handleRequest(() => login(data));
   };
 
   const handleGoogleLogin = async (): Promise<void> => {
-    await handleRequest(() => loginWithGoogle(), "Google Login successful!");
+    await handleRequest(() => loginWithGoogle());
   };
 
-  return { loading, error, successMessage, handleLogin, handleGoogleLogin };
+  return { loading, error, handleLogin, handleGoogleLogin };
 };

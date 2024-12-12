@@ -7,8 +7,8 @@ import FallbackPage from "./pages/FallBackPage";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/SignUp";
 import Profile from "./components/Profile";
-import ProtectedRoute from "./components/Common/ProtectedRoute";
 import { store } from "./store/store";
+import ProtectedRoute from "./components/Common/ProtectedRoute";
 
 function App() {
   return (

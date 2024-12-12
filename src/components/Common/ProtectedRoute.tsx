@@ -1,23 +1,20 @@
-import React, { ReactNode, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-  const navigate = useNavigate();
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login?redirected=true");
-    }
-  }, [isAuthenticated, navigate]);
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
   return <>{children}</>;
 };
