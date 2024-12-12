@@ -112,9 +112,8 @@ const Signup: React.FC = () => {
                 handleSignup(formValues)
                   .then(() => {
                     const searchParams = new URLSearchParams(location.search);
-                    const redirectTo = searchParams.get("redirectTo"); // Get the redirect URL
+                    const redirectTo = searchParams.get("redirectTo");
 
-                    // Redirect to the desired page or default to /profile
                     navigate(redirectTo || "/profile");
                     setSnackbarMessage("Signup successful!");
                     setSnackbarSeverity("success");
