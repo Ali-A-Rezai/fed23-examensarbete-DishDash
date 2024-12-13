@@ -1,18 +1,24 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
+import LoadingComponent from "../components/LoadingComponent";
+
 const Profile: React.FC = () => {
-  const { logout } = useAuth();
+  const { user, logout, loading } = useAuth();
 
   const handleLogout = () => {
     logout();
   };
 
+  if (loading) {
+    return <LoadingComponent message="Loading your profile..." />;
+  }
+
   return (
     <div>
-      <h1>Profile</h1>
-      <p>Welcome to your profile page!</p>
-
+      <p>
+        Welcome, <strong>{user?.displayName || user?.email}</strong>!
+      </p>
       <Button variant="contained" color="secondary" onClick={handleLogout}>
         Logout
       </Button>

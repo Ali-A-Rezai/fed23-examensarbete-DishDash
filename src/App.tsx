@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import FallbackPage from "./pages/FallBackPage";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/SignUp";
-import Profile from "./components/Profile";
+import Profile from "./pages/ProfilePage";
 import { store } from "./store/store";
 import ProtectedRoute from "./components/Common/ProtectedRoute";
 

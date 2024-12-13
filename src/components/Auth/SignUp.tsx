@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Box,
   Button,
@@ -11,7 +11,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import GoogleIcon from "../../assets/images/Google_logo.png";
 import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthActions } from "../../utils/hooks/useAuthActions";
 import useFormState from "../../utils/hooks/useFormState";
 import InputField from "../InputField";
@@ -32,6 +32,43 @@ const Signup: React.FC = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
     "success"
   );
+
+  const location = useLocation();
+  const redirectTo = new URLSearchParams(location.search).get("redirectTo");
+
+  const handleFormSubmit = useCallback(() => {
+    if (validateForm()) {
+      handleSignup(formValues)
+        .then(() => {
+          navigate(redirectTo || "/profile");
+          setSnackbarMessage("Signup successful!");
+          setSnackbarSeverity("success");
+          setOpenSnackbar(true);
+        })
+        .catch((err) => {
+          setSnackbarMessage(
+            err.message || "Failed to signup. Please try again."
+          );
+          setSnackbarSeverity("error");
+          setOpenSnackbar(true);
+        });
+    }
+  }, [formValues, validateForm, handleSignup, navigate, redirectTo]);
+
+  const handleGoogleSubmit = useCallback(() => {
+    handleGoogleSignup()
+      .then(() => {
+        setSnackbarMessage("Signup with Google successful!");
+        setSnackbarSeverity("success");
+        setOpenSnackbar(true);
+      })
+      .catch((err) => {
+        console.log("Failed to signup with Google.", err);
+        setSnackbarMessage("Failed to signup with Google. Please try again.");
+        setSnackbarSeverity("error");
+        setOpenSnackbar(true);
+      });
+  }, [handleGoogleSignup]);
 
   return (
     <Container className="auth-container">
@@ -107,27 +144,7 @@ const Signup: React.FC = () => {
             color="primary"
             fullWidth
             sx={{ mb: 2 }}
-            onClick={() => {
-              if (validateForm()) {
-                handleSignup(formValues)
-                  .then(() => {
-                    const searchParams = new URLSearchParams(location.search);
-                    const redirectTo = searchParams.get("redirectTo");
-
-                    navigate(redirectTo || "/profile");
-                    setSnackbarMessage("Signup successful!");
-                    setSnackbarSeverity("success");
-                    setOpenSnackbar(true);
-                  })
-                  .catch((err) => {
-                    setSnackbarMessage(
-                      err.message || "Failed to signup. Please try again."
-                    );
-                    setSnackbarSeverity("error");
-                    setOpenSnackbar(true);
-                  });
-              }
-            }}
+            onClick={handleFormSubmit}
             disabled={loading}
             type="submit"
           >
@@ -145,22 +162,7 @@ const Signup: React.FC = () => {
           variant="outlined"
           color="secondary"
           fullWidth
-          onClick={() => {
-            handleGoogleSignup()
-              .then(() => {
-                setSnackbarMessage("Signup with Google successful!");
-                setSnackbarSeverity("success");
-                setOpenSnackbar(true);
-              })
-              .catch((err) => {
-                console.log("Failed to signup with Google.", err);
-                setSnackbarMessage(
-                  "Failed to signup with Google. Please try again."
-                );
-                setSnackbarSeverity("error");
-                setOpenSnackbar(true);
-              });
-          }}
+          onClick={handleGoogleSubmit}
           disabled={loading}
           startIcon={
             <img

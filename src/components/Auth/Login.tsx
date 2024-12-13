@@ -6,8 +6,6 @@ import {
   Typography,
   Divider,
   CircularProgress,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import GoogleIcon from "../../assets/images/Google_logo.png";
 import { Container } from "react-bootstrap";
@@ -22,16 +20,11 @@ const Login: React.FC = () => {
     login,
     loginWithGoogle,
     loading: authLoading,
-    error: authError,
+    showSnackbar,
   } = useAuth();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
-    "success"
-  );
 
   const from = location.state?.from?.pathname || "/";
 
@@ -41,29 +34,25 @@ const Login: React.FC = () => {
     if (email && password) {
       try {
         await login(email, password);
-        navigate(from, { replace: true });
+        showSnackbar("Login successful!", "success");
+        setTimeout(() => navigate(from, { replace: true }), 3000);
       } catch (err) {
-        console.log(err);
-        setSnackbarMessage("Login failed. Please try again.");
-        setSnackbarSeverity("error");
-        setOpenSnackbar(true);
+        console.error(err);
+        showSnackbar("Login failed. Please try again.", "error");
       }
     } else {
-      setSnackbarMessage("Please enter both email and password.");
-      setSnackbarSeverity("error");
-      setOpenSnackbar(true);
+      showSnackbar("Please enter both email and password.", "error");
     }
   };
 
   const handleGoogleLoginClick = async () => {
     try {
       await loginWithGoogle();
-      navigate(from, { replace: true });
+      showSnackbar("Google login successful!", "success");
+      setTimeout(() => navigate(from, { replace: true }), 3000);
     } catch (err) {
-      console.log(err);
-      setSnackbarMessage("Google login failed. Please try again.");
-      setSnackbarSeverity("error");
-      setOpenSnackbar(true);
+      console.error(err);
+      showSnackbar("Google login failed. Please try again.", "error");
     }
   };
 
@@ -84,12 +73,6 @@ const Login: React.FC = () => {
         <Typography variant="h4" sx={{ mb: 2 }}>
           Login
         </Typography>
-
-        {authError && (
-          <Typography color="error" sx={{ mb: 2 }}>
-            {authError}
-          </Typography>
-        )}
 
         <form onSubmit={handleLoginClick}>
           <TextField
@@ -149,6 +132,7 @@ const Login: React.FC = () => {
             "Login with Google"
           )}
         </Button>
+
         <Typography
           variant="body2"
           sx={{ mt: 2 }}
@@ -166,19 +150,6 @@ const Login: React.FC = () => {
           </Typography>
         </Typography>
       </Box>
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(false)}
-      >
-        <Alert
-          onClose={() => setOpenSnackbar(false)}
-          severity={snackbarSeverity}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </Container>
   );
 };

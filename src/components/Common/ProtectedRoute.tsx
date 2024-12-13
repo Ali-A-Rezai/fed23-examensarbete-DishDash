@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import LoadingComponent from "../LoadingComponent";
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -9,11 +10,19 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   const location = useLocation();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingComponent message="Authenticating..." />;
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <>
+        <Navigate
+          to="/login?redirected=true"
+          state={{ from: location }}
+          replace
+        />
+      </>
+    );
   }
 
   return <>{children}</>;

@@ -1,26 +1,5 @@
-import { createStore } from "redux";
-import { combineReducers } from "redux";
-
-type AuthAction = { type: "LOGIN" } | { type: "LOGOUT" };
-
-interface AuthState {
-  isAuthenticated: boolean;
-}
-
-const initialState: AuthState = {
-  isAuthenticated: false,
-};
-
-const authReducer = (state = initialState, action: AuthAction): AuthState => {
-  switch (action.type) {
-    case "LOGIN":
-      return { ...state, isAuthenticated: true };
-    case "LOGOUT":
-      return { ...state, isAuthenticated: false };
-    default:
-      return state;
-  }
-};
+import { createStore, combineReducers } from "redux";
+import authReducer from "./reducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,

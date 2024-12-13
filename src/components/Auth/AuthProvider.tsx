@@ -1,110 +1,155 @@
-// import React, { useState, useEffect, useMemo } from "react";
-// import { User, onAuthStateChanged } from "firebase/auth";
-// import { auth } from "../../firebase/firebase-config";
-// import { AuthContext, AuthContextType } from "../../context/AuthContext";
-// import {
-//   signup,
-//   login,
-//   logout,
-//   loginOrSignupWithGoogle,
-//   getUser,
-// } from "../../services/authService";
-// import LoadingComponent from "../LoadingComponent";
-// import ErrorComponent from "../ErrorComponent";
-// import { SignupFormValues } from "../../types/form";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase/firebase-config";
+import {
+  signup,
+  login,
+  logout,
+  loginOrSignupWithGoogle,
+} from "../../services/authService";
+import { SignupFormValues } from "../../types/form";
+import { AuthContext } from "../../context/AuthContext";
+import { ERROR_MESSAGES } from "./ErrorMessages";
+import LoadingComponent from "../../components/LoadingComponent";
+import { Snackbar, Alert } from "@mui/material";
 
-// const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-//   children,
-// }) => {
-//   const [user, setUser] = useState<null | User>(null);
-//   const [loading, setLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    "success" | "error" | "info" | "warning"
+  >("info");
 
-//   useEffect(() => {
-//     const currentUser = getUser();
-//     if (currentUser) {
-//       setUser(currentUser);
-//     }
+  const showSnackbar = useCallback(
+    (message: string, severity: "success" | "error" | "info" | "warning") => {
+      setSnackbarMessage(message);
+      setSnackbarSeverity(severity);
+      setSnackbarOpen(true);
+    },
+    []
+  );
 
-//     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-//       setUser(authUser);
-//       setLoading(false);
-//     });
+  const handleError = useCallback(
+    (
+      errorMessage: string,
+      severity: "error" | "info" | "success" | "warning"
+    ) => {
+      setError(errorMessage);
+      showSnackbar(errorMessage, severity);
+    },
+    [showSnackbar]
+  );
 
-//     return () => unsubscribe();
-//   }, []);
+  const handleAuthAction = useCallback(
+    async (
+      action: () => Promise<User>,
+      successMessage: string,
+      errorMessage: string
+    ) => {
+      try {
+        setLoading(true);
+        setError(null);
+        const result = await action();
+        setUser(result);
+        showSnackbar(successMessage, "success");
+      } catch (err) {
+        console.error(`${errorMessage}:`, err);
+        handleError(errorMessage, "error");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [showSnackbar, handleError]
+  );
 
-//   const handleLogin = async (email: string, password: string) => {
-//     try {
-//       const user = await login(email, password);
-//       setUser(user);
-//       setError(null);
-//     } catch (err) {
-//       console.log(
-//         "Login failed. Please check your credentials and try again.",
-//         err
-//       );
-//       setError("Login failed. Please check your credentials and try again.");
-//     }
-//   };
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      setUser(authUser || null);
+      setLoading(false);
+    });
 
-//   const handleSignup = async (formValues: SignupFormValues) => {
-//     try {
-//       const { email, password, firstName, lastName } = formValues;
-//       const user = await signup(email, password, firstName, lastName);
-//       setUser(user);
-//       setError(null);
-//     } catch (err) {
-//       console.log(
-//         "Signup failed. Please check your credentials and try again.",
-//         err
-//       );
-//       setError("Signup failed. Please try again.");
-//     }
-//   };
+    return () => unsubscribe();
+  }, []);
 
-//   const handleLogout = async () => {
-//     try {
-//       await logout();
-//       setUser(null);
-//       setError(null);
-//     } catch (err) {
-//       console.log("Logout failed.", err);
-//       setError("Logout failed. Please try again.");
-//     }
-//   };
+  const handleLogout = useCallback(async () => {
+    try {
+      await logout();
+      setUser(null);
+      showSnackbar("You logged out", "info");
+    } catch (err) {
+      console.error("Error during logout:", err);
+      handleError(ERROR_MESSAGES.LOGOUT_FAILED, "error");
+    }
+  }, [showSnackbar, handleError]);
 
-//   const handleLoginWithGoogle = async () => {
-//     try {
-//       const user = await loginOrSignupWithGoogle();
-//       setUser(user);
-//       setError(null);
-//     } catch (err) {
-//       console.log(
-//         "Signup failed. Please check your credentials and try again.",
-//         err
-//       );
-//       setError("Google login failed. Please try again.");
-//     }
-//   };
+  const value = useMemo(() => {
+    const handleLogin = (email: string, password: string) =>
+      handleAuthAction(
+        () => login(email, password),
+        "Login successful!",
+        ERROR_MESSAGES.LOGIN_FAILED
+      );
 
-//   const value: AuthContextType = useMemo(
-//     () => ({
-//       user,
-//       loading,
-//       error,
-//       login: handleLogin,
-//       signup: handleSignup,
-//       logout: handleLogout,
-//       loginWithGoogle: handleLoginWithGoogle,
-//     }),
-//     [user, loading, error]
-//   );
+    const handleSignup = (formValues: SignupFormValues) =>
+      handleAuthAction(
+        () =>
+          signup(
+            formValues.email,
+            formValues.password,
+            formValues.firstName,
+            formValues.lastName
+          ),
+        "Signup successful!",
+        ERROR_MESSAGES.SIGNUP_FAILED
+      );
 
-//   if (loading) return <LoadingComponent />;
-//   if (error) return <ErrorComponent message={error} />;
+    const handleLoginWithGoogle = () =>
+      handleAuthAction(
+        () => loginOrSignupWithGoogle(),
+        "Google login successful!",
+        ERROR_MESSAGES.GOOGLE_LOGIN_FAILED
+      );
 
-//   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-// };
+    return {
+      user,
+      loading,
+      error,
+      login: handleLogin,
+      signup: handleSignup,
+      logout: handleLogout,
+      loginWithGoogle: handleLoginWithGoogle,
+      showSnackbar,
+    };
+  }, [user, loading, error, handleAuthAction, handleLogout, showSnackbar]);
 
-// export default AuthProvider;
+  if (loading) {
+    return <LoadingComponent message="Authenticating..." />;
+  }
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthProvider;

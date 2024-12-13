@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import { AuthProvider } from "./context/AuthContext.tsx";
+import AuthProvider from "./components/Auth/AuthProvider.tsx";
 
 const queryClient = new QueryClient();
 
