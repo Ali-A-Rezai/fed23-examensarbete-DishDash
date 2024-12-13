@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase/firebase-config";
+import { auth } from "../firebase/firebase-config";
 import {
   signup,
   login,
   logout,
   loginOrSignupWithGoogle,
-} from "../../services/authService";
-import { SignupFormValues } from "../../types/form";
-import { AuthContext } from "../../context/AuthContext";
+} from "./services/authService";
+import { SignupFormValues } from "./types/form";
+import { AuthContext } from "./context/AuthContext";
 import { ERROR_MESSAGES } from "./ErrorMessages";
-import LoadingComponent from "../../components/LoadingComponent";
+import LoadingComponent from "../components/LoadingComponent";
 import { Snackbar, Alert } from "@mui/material";
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({

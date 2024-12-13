@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SignupFormValues, LoginFormValues } from "../../types/form";
+import { SignupFormValues, LoginFormValues } from "../types/form";
 
 const useAuthAction = (navigate: (path: string) => void) => {
   const [loading, setLoading] = useState(false);

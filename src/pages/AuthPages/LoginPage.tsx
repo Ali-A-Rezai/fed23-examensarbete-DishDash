@@ -10,7 +10,7 @@ import {
 import GoogleIcon from "../../assets/images/Google_logo.png";
 import { Container } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../Auth/context/AuthContext";
 import "../../assets/styles/components-style/Auth.scss";
 
 const Login: React.FC = () => {

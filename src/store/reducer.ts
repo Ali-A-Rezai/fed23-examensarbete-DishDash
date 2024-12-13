@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from "../types/actionTypes";
+import { LOGIN, LOGOUT } from "./types/actionTypes";
 
 interface AuthAction {
   type: typeof LOGIN | typeof LOGOUT;

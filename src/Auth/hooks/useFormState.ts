@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { FormErrors, SignupFormValues } from "../../types/form";
-import { validatePassword } from "../../utils/password-validator";
+import { FormErrors, SignupFormValues } from "../types/form";
+import { validatePassword } from "../utils/password-validator";
 
 const useFormState = () => {
   const [formValues, setFormValues] = useState<SignupFormValues>({

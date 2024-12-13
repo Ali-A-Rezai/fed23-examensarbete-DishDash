@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from "../types/actionTypes";
+import { LOGIN, LOGOUT } from "./types/actionTypes";
 
 export const login = () => ({ type: LOGIN });
 export const logout = () => ({ type: LOGOUT });

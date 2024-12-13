@@ -8,14 +8,14 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../Auth/context/AuthContext";
 import GoogleIcon from "../../assets/images/Google_logo.png";
 import { Container } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuthActions } from "../../utils/hooks/useAuthActions";
-import useFormState from "../../utils/hooks/useFormState";
-import InputField from "../InputField";
+import { useAuthActions } from "../../Auth/hooks/useAuthActions";
+import InputField from "../../components/InputField";
 import "../../assets/styles/components-style/Auth.scss";
+import useFormState from "../../Auth/hooks/useFormState";
 
 const Signup: React.FC = () => {
   const navigate = useNavigate();
