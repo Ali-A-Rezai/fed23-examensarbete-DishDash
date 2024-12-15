@@ -7,6 +7,7 @@ import {
   NutritionInfo,
 } from "../types/recipe";
 import { db, collection, addDoc } from "../firebase/firebase-config";
+import { doc, updateDoc } from "firebase/firestore";
 
 const SPOONACULAR_API_URL = "https://api.spoonacular.com/recipes";
 const apiKey = import.meta.env.VITE_SPOONACULAR_API_KEY;
@@ -108,5 +109,25 @@ export const saveFavoriteRecipe = async (
   } catch (error) {
     console.error("Error saving favorite recipe:", error);
     throw new Error("Error saving favorite recipe");
+  }
+};
+
+// Update user profile function
+export const updateUserProfile = async (updatedUser: {
+  displayName: string;
+  email: string;
+  userId: string;
+}) => {
+  try {
+    const userRef = doc(db, "users", updatedUser.userId);
+    await updateDoc(userRef, {
+      displayName: updatedUser.displayName,
+      email: updatedUser.email,
+    });
+    console.log("User profile updated successfully!");
+    return true;
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    throw new Error("Failed to update user profile");
   }
 };

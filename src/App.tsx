@@ -4,7 +4,6 @@ import HomePage from "./pages/HomePage";
 import NavigationBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import FallbackPage from "./pages/FallBackPage";
-
 import Profile from "./pages/ProfilePage";
 import { store } from "./store/store";
 import ProtectedRoute from "./components/Common/ProtectedRoute";
