@@ -1,0 +1,39 @@
+/* components-style/RecipeResults.scss */
+.recipe-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+
+  button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: #0056b3;
+    }
+  }
+
+  span {
+    font-size: 16px;
+    color: #333;
+  }
+}

@@ -128,7 +128,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [user, loading, error, handleAuthAction, handleLogout, showSnackbar]);
 
   if (loading) {
-    return <LoadingComponent message="Authenticating..." />;
+    return <LoadingComponent message="Loading..." />;
   }
 
   return (

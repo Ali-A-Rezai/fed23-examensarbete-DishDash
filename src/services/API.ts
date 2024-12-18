@@ -11,7 +11,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 const SPOONACULAR_API_URL = "https://api.spoonacular.com/recipes";
 const apiKey = import.meta.env.VITE_SPOONACULAR_API_KEY;
-const numberOfRecipes = 15;
+const numberOfRecipes = 8;
 
 if (!apiKey) {
   throw new Error("Spoonacular API key is missing🚨");
@@ -130,4 +130,34 @@ export const updateUserProfile = async (updatedUser: {
     console.error("Error updating user profile:", error);
     throw new Error("Failed to update user profile");
   }
+};
+
+export const fetchFilteredRecipes = async ({
+  query = "",
+  mealType = "",
+  maxCalories = 0,
+  sortBy = "",
+  offset = 0,
+  number = 5,
+}: {
+  query?: string;
+  mealType?: string;
+  maxCalories?: number;
+  sortBy?: string;
+  offset?: number;
+  number?: number;
+}): Promise<RecipeSearchResults> => {
+  const params = new URLSearchParams({
+    apiKey,
+    query,
+    offset: offset.toString(),
+    number: number.toString(),
+  });
+
+  if (mealType) params.append("mealType", mealType);
+  if (maxCalories) params.append("maxCalories", maxCalories.toString());
+  if (sortBy) params.append("sort", sortBy);
+
+  const url = `${SPOONACULAR_API_URL}/complexSearch?${params.toString()}`;
+  return await fetchApi<RecipeSearchResults>(url);
 };
