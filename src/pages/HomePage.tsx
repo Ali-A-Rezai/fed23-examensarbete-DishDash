@@ -2,9 +2,16 @@ import { motion } from "framer-motion";
 import { Button, Container } from "react-bootstrap";
 import FavoriteRecipes from "../components/PopularRecipes";
 import "../assets/styles/Pages-style/HomePage.scss";
+import { useNavigate } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   const easing = [0.6, -0.05, 0.01, 0.99];
+
+  const navigate = useNavigate();
+
+  const handleGetStartedClick = () => {
+    navigate("/recipes");
+  };
 
   return (
     <div className="homepage">
@@ -36,7 +43,12 @@ const HomePage: React.FC = () => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, delay: 0.7, ease: easing }}
           >
-            <Button variant="primary" size="lg" className="get-started-btn">
+            <Button
+              variant="primary"
+              size="lg"
+              className="get-started-btn"
+              onClick={handleGetStartedClick}
+            >
               Get Started
             </Button>
           </motion.div>

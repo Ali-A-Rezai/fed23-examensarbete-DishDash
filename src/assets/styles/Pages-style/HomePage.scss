@@ -65,9 +65,93 @@ body {
       color: #6c757d;
     }
   }
+
   .about-section,
   .popular-recipes {
     padding: 80px 20px;
     text-align: center;
+  }
+
+  @media (max-width: 992px) {
+    .hero-title {
+      font-size: 3rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+    }
+
+    .get-started-btn {
+      font-size: 1rem;
+      padding: 8px 25px;
+    }
+
+    .about-section {
+      padding: 60px 20px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .section-description {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+    }
+
+    .get-started-btn {
+      font-size: 1rem;
+      padding: 8px 20px;
+    }
+
+    .about-section {
+      padding: 50px 20px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+    }
+
+    .section-description {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .get-started-btn {
+      font-size: 0.9rem;
+      padding: 6px 15px;
+    }
+
+    .about-section {
+      padding: 40px 20px;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .section-description {
+      font-size: 0.9rem;
+    }
   }
 }

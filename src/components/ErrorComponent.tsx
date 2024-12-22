@@ -32,17 +32,13 @@ const ErrorComponent: React.FC<ErrorComponentProps> = ({
       autoHideDuration={6000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        padding: 0,
+      }}
     >
-      <Alert
-        onClose={handleClose}
-        severity="error"
-        sx={{
-          width: "100%",
-          borderRadius: "8px",
-          padding: "16px",
-          boxShadow: 3,
-        }}
-      >
+      <Alert onClose={handleClose} severity="error">
         {message}
       </Alert>
     </Snackbar>
