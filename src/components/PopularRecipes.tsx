@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { getRandomRecipes } from "../services/API";
 import { Recipe } from "../types/recipe";
+import RecipeCard from "./RecipeCard";
 import LoadingComponent from "./LoadingComponent";
 import ErrorComponent from "./ErrorComponent";
 import scroll from "../utils/scroll";
@@ -49,12 +50,11 @@ const FavoriteRecipes: React.FC<FavoriteRecipesProps> = () => {
             data.map((recipe: Recipe) => (
               <motion.div
                 key={recipe.id}
-                className="recipe-card"
+                className="recipe-card-wrapper"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3, ease: easing }}
               >
-                <img src={recipe.image} alt={recipe.title} />
-                <h3>{recipe.title}</h3>
+                <RecipeCard recipe={recipe} />
               </motion.div>
             ))
           ) : (

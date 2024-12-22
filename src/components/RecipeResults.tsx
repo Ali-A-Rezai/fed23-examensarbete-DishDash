@@ -24,6 +24,7 @@ export const RecipeResults: React.FC<RecipeResultsProps> = ({
   onPageChange,
 }) => {
   const [sortBy, setSortBy] = useState("");
+  const [favorites, setFavorites] = useState<Recipe[]>([]);
 
   const { data, isLoading, isError } = useRecipes({
     query,
@@ -36,6 +37,12 @@ export const RecipeResults: React.FC<RecipeResultsProps> = ({
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value);
+  };
+
+  const addFavorite = (recipe: Recipe) => {
+    if (!favorites.some((fav) => fav.id === recipe.id)) {
+      setFavorites((prev) => [...prev, recipe]);
+    }
   };
 
   if (isLoading) return <Loading message="Loading Recipes..." />;
@@ -58,7 +65,11 @@ export const RecipeResults: React.FC<RecipeResultsProps> = ({
 
       <div className="recipe-list">
         {data?.map((recipe: Recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
+          <RecipeCard
+            key={recipe.id}
+            recipe={recipe}
+            addFavorite={addFavorite}
+          />
         ))}
       </div>
 

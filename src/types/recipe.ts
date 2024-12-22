@@ -42,6 +42,8 @@ export interface RecipeDetails {
   dishTypes: string[];
   diets: string[];
   sourceUrl: string;
+  spoonacularScore: number;
+  readyInMinutes: number;
 }
 
 export interface NutritionInfo {

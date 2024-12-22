@@ -9,9 +9,10 @@
 
   h1 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     font-size: 2.5rem;
     color: #333;
+    font-weight: 100;
   }
 
   .controls {
@@ -73,7 +74,7 @@
     .toggle-btn {
       padding: 10px 15px;
       font-size: 16px;
-      background-color: #28a745; /* Same color as search button */
+      background-color: #28a745;
       color: white;
       border: none;
       border-radius: 5px;
@@ -81,22 +82,19 @@
       transition: background-color 0.3s ease, transform 0.2s ease;
       margin-top: 25px;
 
-      /* Hover effect */
       &:hover {
-        background-color: #218838; /* Darker green on hover */
+        background-color: #218838;
       }
 
       &:active {
         transform: scale(0.98);
       }
 
-      /* Focus effect */
       &:focus {
         outline: none;
-        box-shadow: 0 0 3px rgba(40, 167, 69, 0.5); /* Green shadow */
+        box-shadow: 0 0 3px rgba(40, 167, 69, 0.5);
       }
 
-      /* Active state when filters are applied */
       &.active {
         background-color: #218838;
       }

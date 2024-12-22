@@ -1,9 +1,17 @@
 import { createContext, useContext } from "react";
-import { User } from "firebase/auth";
+import { User as FirebaseUser } from "firebase/auth";
 import { SignupFormValues } from "../types/form";
 
+export interface UserProfileUpdate {
+  firstName: string;
+  lastName: string;
+  email?: string;
+  oldPassword?: string;
+  newPassword?: string;
+}
+
 export interface AuthContextType {
-  user: User | null;
+  user: FirebaseUser | null;
   loading: boolean;
   error: string | null;
   login: (email: string, password: string) => Promise<void>;
@@ -14,6 +22,7 @@ export interface AuthContextType {
     message: string,
     variant: "success" | "info" | "error"
   ) => void;
+  updateProfile: (profile: UserProfileUpdate) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(

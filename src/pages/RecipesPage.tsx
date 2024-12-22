@@ -51,7 +51,7 @@ const RecipePage: React.FC = () => {
 
   return (
     <div className="recipe-page">
-      <h1>Recipe Finder</h1>
+      <h1>Search And Explore Recipes</h1>
       <div className="controls">
         <div className="search-bar">
           <input

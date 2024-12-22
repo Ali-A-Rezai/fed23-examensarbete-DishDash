@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { User, onAuthStateChanged } from "firebase/auth";
+import {
+  User,
+  onAuthStateChanged,
+  updateProfile as firebaseUpdateProfile,
+  updateEmail,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+} from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
 import {
   signup,
@@ -69,6 +77,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      console.log("onAuthStateChanged called:", authUser);
       setUser(authUser || null);
       setLoading(false);
     });
@@ -86,6 +95,49 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       handleError(ERROR_MESSAGES.LOGOUT_FAILED, "error");
     }
   }, [showSnackbar, handleError]);
+
+  const updateProfile = useCallback(
+    async (profile: {
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      oldPassword?: string;
+      newPassword?: string;
+    }) => {
+      if (user) {
+        try {
+          console.log("User object for profile update:", user);
+
+          if (profile.firstName || profile.lastName) {
+            const displayName = `${profile.firstName || ""} ${
+              profile.lastName || ""
+            }`.trim();
+            await firebaseUpdateProfile(user, { displayName });
+            setUser({ ...user, displayName });
+          }
+
+          if (profile.email) {
+            await updateEmail(user, profile.email);
+          }
+
+          if (profile.oldPassword && profile.newPassword) {
+            const credential = EmailAuthProvider.credential(
+              user.email || "",
+              profile.oldPassword
+            );
+            await reauthenticateWithCredential(user, credential);
+            await updatePassword(user, profile.newPassword);
+          }
+
+          showSnackbar("Profile updated successfully", "success");
+        } catch (err) {
+          console.error("Error updating profile:", err);
+          showSnackbar("Error updating profile", "error");
+        }
+      }
+    },
+    [user, showSnackbar]
+  );
 
   const value = useMemo(() => {
     const handleLogin = (email: string, password: string) =>
@@ -124,8 +176,17 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       logout: handleLogout,
       loginWithGoogle: handleLoginWithGoogle,
       showSnackbar,
+      updateProfile,
     };
-  }, [user, loading, error, handleAuthAction, handleLogout, showSnackbar]);
+  }, [
+    user,
+    loading,
+    error,
+    handleAuthAction,
+    handleLogout,
+    showSnackbar,
+    updateProfile,
+  ]);
 
   if (loading) {
     return <LoadingComponent message="Loading..." />;
