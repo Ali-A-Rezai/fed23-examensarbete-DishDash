@@ -36,7 +36,7 @@ const NavigationBar: React.FC = () => {
               to="/profile"
               className="text-white"
             >
-              <FaUserCircle size={23} />
+              <FaUserCircle size={22} />
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

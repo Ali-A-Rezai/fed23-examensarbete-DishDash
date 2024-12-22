@@ -13,6 +13,14 @@
     font-size: 2.5rem;
     color: #333;
     font-weight: 100;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.75rem;
+    }
   }
 
   .controls {
@@ -23,15 +31,20 @@
     border-bottom: 2px solid #eee;
     padding-bottom: 45px;
 
+    @media (max-width: 768px) {
+      gap: 20px;
+    }
+
     .search-bar {
       display: flex;
       align-items: center;
       border-radius: 30px;
       overflow: hidden;
+      width: 100%;
 
       input {
-        padding: 18px;
-        font-size: 16px;
+        padding: 14px;
+        font-size: 14px;
         flex: 1;
         border: none;
         border-radius: 30px 0 0 30px;
@@ -43,11 +56,19 @@
           outline: none;
           border-color: #28a745;
         }
+
+        @media (max-width: 768px) {
+          font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 12px;
+        }
       }
 
       button {
-        padding: 18px 20px;
-        font-size: 16px;
+        padding: 14px 18px;
+        font-size: 14px;
         background-color: #28a745;
         color: #fff;
         border: none;
@@ -62,6 +83,14 @@
         &:hover {
           background-color: #218838;
         }
+
+        @media (max-width: 768px) {
+          font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 11px;
+        }
       }
     }
 
@@ -69,6 +98,11 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      justify-content: center;
+
+      @media (max-width: 768px) {
+        justify-content: flex-start;
+      }
     }
 
     .toggle-btn {
@@ -98,6 +132,16 @@
       &.active {
         background-color: #218838;
       }
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 12px;
+        padding: 6px 10px;
+      }
     }
 
     .filters {
@@ -105,9 +149,11 @@
       gap: 20px;
       flex-wrap: wrap;
       margin-top: 15px;
+      justify-content: space-between;
 
       .filter-item {
         min-width: 200px;
+        margin-bottom: 15px;
 
         label {
           display: block;
@@ -115,6 +161,14 @@
           margin-bottom: 5px;
           color: #333;
           font-weight: bold;
+
+          @media (max-width: 768px) {
+            font-size: 13px;
+          }
+
+          @media (max-width: 480px) {
+            font-size: 12px;
+          }
         }
 
         select {
@@ -142,6 +196,17 @@
             background: #fff;
             color: #333;
             text-align: left;
+          }
+
+          @media (max-width: 768px) {
+            font-size: 14px;
+            width: 100%;
+            padding: 10px;
+          }
+
+          @media (max-width: 480px) {
+            font-size: 13px;
+            padding: 8px;
           }
         }
       }
@@ -171,6 +236,39 @@
         border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
       }
+
+      @media (max-width: 768px) {
+        font-size: 14px;
+        width: 100%;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 13px;
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 90px 20px;
+    .controls {
+      padding-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 60px 15px;
+
+    h1 {
+      font-size: 1.75rem;
+    }
+
+    .controls {
+      padding-bottom: 20px;
     }
   }
 }
