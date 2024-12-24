@@ -20,6 +20,7 @@ import { AuthContext } from "./context/AuthContext";
 import { ERROR_MESSAGES } from "./ErrorMessages";
 import LoadingComponent from "../components/LoadingComponent";
 import { Snackbar, Alert } from "@mui/material";
+import { getFirestore, doc, updateDoc } from "firebase/firestore";
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -106,27 +107,47 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }) => {
       if (user) {
         try {
-          console.log("User object for profile update:", user);
+          console.log("Updating profile for user:", user);
 
           if (profile.firstName || profile.lastName) {
             const displayName = `${profile.firstName || ""} ${
               profile.lastName || ""
             }`.trim();
+            console.log("Updating displayName to:", displayName);
+
             await firebaseUpdateProfile(user, { displayName });
-            setUser({ ...user, displayName });
+
+            await user.reload();
+            const updatedUser = auth.currentUser;
+            console.log("Updated user after reload:", updatedUser);
+            setUser(updatedUser);
           }
 
           if (profile.email) {
+            console.log("Updating email to:", profile.email);
             await updateEmail(user, profile.email);
           }
 
           if (profile.oldPassword && profile.newPassword) {
+            console.log("Reauthenticating user for password update...");
             const credential = EmailAuthProvider.credential(
               user.email || "",
               profile.oldPassword
             );
             await reauthenticateWithCredential(user, credential);
+            console.log("Updating password...");
             await updatePassword(user, profile.newPassword);
+          }
+
+          if (profile.firstName || profile.lastName) {
+            const db = getFirestore();
+            const userRef = doc(db, "users", user.uid);
+
+            await updateDoc(userRef, {
+              firstName: profile.firstName,
+              lastName: profile.lastName,
+            });
+            console.log("Firestore updated with firstName and lastName");
           }
 
           showSnackbar("Profile updated successfully", "success");
@@ -134,6 +155,8 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           console.error("Error updating profile:", err);
           showSnackbar("Error updating profile", "error");
         }
+      } else {
+        showSnackbar("No user is currently signed in", "error");
       }
     },
     [user, showSnackbar]

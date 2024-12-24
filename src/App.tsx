@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/Common/ProtectedRoute";
 import Login from "./pages/AuthPages/LoginPage";
 import Signup from "./pages/AuthPages/SignUpPage";
 import RecipesPage from "./pages/RecipesPage";
+import FavoritesPage from "./pages/FavoritesPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/recipes" element={<RecipesPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
 
           <Route
             path="/profile"

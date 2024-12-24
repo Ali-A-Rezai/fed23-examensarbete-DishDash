@@ -5,9 +5,6 @@
 html,
 body {
   scrollbar-width: none;
-}
-
-body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -28,6 +25,7 @@ body {
     text-align: center;
     position: relative;
     color: white;
+    padding: 0 20px;
 
     .hero-title {
       font-size: 3.5rem;
@@ -50,7 +48,7 @@ body {
   }
 
   .about-section {
-    padding: 100px 20px;
+    padding: 80px 20px;
     background-color: #f8f9fa;
     text-align: center;
 
@@ -72,9 +70,36 @@ body {
     text-align: center;
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: 1200px) {
     .hero-title {
       font-size: 3rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.4rem;
+    }
+
+    .get-started-btn {
+      font-size: 1rem;
+      padding: 8px 25px;
+    }
+
+    .about-section {
+      padding: 70px 20px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+    }
+
+    .section-description {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .hero-title {
+      font-size: 2.8rem;
     }
 
     .hero-subtitle {
@@ -83,7 +108,7 @@ body {
 
     .get-started-btn {
       font-size: 1rem;
-      padding: 8px 25px;
+      padding: 8px 20px;
     }
 
     .about-section {
@@ -100,58 +125,93 @@ body {
   }
 
   @media (max-width: 768px) {
-    .hero-title {
-      font-size: 2.5rem;
-    }
+    .hero {
+      padding: 0 15px;
 
-    .hero-subtitle {
-      font-size: 1.2rem;
-    }
+      .hero-title {
+        font-size: 2.5rem;
+      }
 
-    .get-started-btn {
-      font-size: 1rem;
-      padding: 8px 20px;
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .get-started-btn {
+        font-size: 0.95rem;
+        padding: 8px 15px;
+      }
     }
 
     .about-section {
       padding: 50px 20px;
-    }
 
-    .section-title {
-      font-size: 1.8rem;
-    }
+      .section-title {
+        font-size: 1.8rem;
+      }
 
-    .section-description {
-      font-size: 0.9rem;
+      .section-description {
+        font-size: 0.95rem;
+      }
     }
   }
 
   @media (max-width: 576px) {
-    .hero-title {
-      font-size: 2rem;
-      margin-bottom: 15px;
-    }
+    .hero {
+      padding: 0 10px;
 
-    .hero-subtitle {
-      font-size: 1rem;
-      margin-bottom: 20px;
-    }
+      .hero-title {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+      }
 
-    .get-started-btn {
-      font-size: 0.9rem;
-      padding: 6px 15px;
+      .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+
+      .get-started-btn {
+        font-size: 0.85rem;
+        padding: 6px 15px;
+      }
     }
 
     .about-section {
       padding: 40px 20px;
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .section-description {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 2rem;
     }
 
-    .section-title {
-      font-size: 1.5rem;
-    }
-
-    .section-description {
+    .hero-subtitle {
       font-size: 0.9rem;
+    }
+
+    .get-started-btn {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+    }
+
+    .about-section {
+      padding: 30px 10px;
+
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .section-description {
+        font-size: 0.8rem;
+      }
     }
   }
 }

@@ -34,7 +34,6 @@ export const useRecipes = ({
     },
     select: (data: { results: Recipe[] }) => data.results,
     staleTime: 10 * 60 * 1000,
-    enabled: !!query && !!mealType && !!maxCalories,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });

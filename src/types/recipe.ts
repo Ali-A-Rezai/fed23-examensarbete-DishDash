@@ -13,6 +13,8 @@ export interface Recipe {
   instructions: string;
   sourceUrl: string;
   spoonacularScore: number;
+  mealType?: string;
+  calories?: number;
 }
 
 export interface RecipeSearchResults {

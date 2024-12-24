@@ -9,6 +9,8 @@
   height: auto;
   position: relative;
   cursor: pointer;
+  height: 300px;
+  width: 220px;
 
   &:hover {
     transform: translateY(-5px);
@@ -58,7 +60,6 @@
     display: flex;
     align-items: center;
     margin-top: 5px;
-    align-items: center;
     padding: 2px 4px;
     margin-bottom: 2px;
   }
@@ -104,7 +105,7 @@
 }
 
 .star.unfilled {
-  color: #ddd;
+  color: #f0f0f0;
 }
 
 .star.filled {
@@ -113,4 +114,81 @@
   top: 0;
   left: 0;
   z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .recipe-card {
+    padding: 10px;
+    max-width: 200px;
+    max-height: 250px;
+    margin: 0 auto;
+
+    img {
+      height: 120px;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    .heart-icon {
+      font-size: 20px;
+    }
+
+    .rating,
+    .cooking-time {
+      font-size: 12px;
+    }
+
+    .rating-number {
+      font-size: 12px;
+    }
+
+    .star-wrapper {
+      width: 14px;
+      height: 14px;
+    }
+
+    .star {
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .recipe-card {
+    padding: 8px;
+    width: 160px;
+    height: 240px;
+
+    img {
+      height: 120px;
+    }
+
+    h3 {
+      font-size: 0.9rem !important;
+    }
+
+    .heart-icon {
+      font-size: 18px;
+    }
+
+    .rating,
+    .cooking-time {
+      font-size: 10px;
+    }
+
+    .rating-number {
+      font-size: 10px;
+    }
+
+    .star-wrapper {
+      width: 12px;
+      height: 12px;
+    }
+
+    .star {
+      font-size: 12px;
+    }
+  }
 }

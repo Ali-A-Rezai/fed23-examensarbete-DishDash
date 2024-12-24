@@ -1,8 +1,19 @@
 .popular-recipes {
+  padding: 20px;
+
   .section-title {
     font-size: 2.5rem;
     margin-bottom: 20px;
     font-weight: bold;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1.8rem;
+    }
   }
 
   .scroll-container {
@@ -32,16 +43,47 @@
     img {
       width: 100%;
       border-radius: 10px;
+      height: 150px;
+      object-fit: cover;
     }
 
     h3 {
       margin-top: 15px;
       font-size: 1.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &:hover {
       transform: translateY(-10px);
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      width: 200px;
+      padding: 15px;
+
+      img {
+        height: 120px;
+      }
+
+      h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      width: 150px;
+      padding: 10px;
+
+      img {
+        height: 100px;
+      }
+
+      h3 {
+        font-size: 1rem;
+      }
     }
   }
 
@@ -77,11 +119,31 @@
     &.left {
       position: absolute;
       left: 10px;
+
+      @media (max-width: 480px) {
+        left: 5px;
+      }
     }
 
     &.right {
       position: absolute;
       right: 10px;
+
+      @media (max-width: 480px) {
+        right: 5px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+      width: 35px;
+      height: 35px;
+      font-size: 14px;
     }
   }
 }

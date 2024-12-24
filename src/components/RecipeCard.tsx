@@ -97,7 +97,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, addFavorite }) => {
           const fillLevel = Math.min(Math.max(scaledRating - index, 0), 1);
           return (
             <div key={index} className="star-wrapper">
-              <FaStar className="star unfilled" style={{ color: "#ddd" }} />
+              <FaStar className="star unfilled" />
               <FaStar
                 className="star filled"
                 style={{
