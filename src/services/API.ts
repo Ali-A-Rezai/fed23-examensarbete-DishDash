@@ -102,10 +102,6 @@ export const saveFavoriteRecipe = async (
       recipeId: recipeId,
       savedAt: new Date(),
     });
-
-    console.log(
-      `Recipe with ID ${recipeId} saved as a favorite for user ${userId}`
-    );
   } catch (error) {
     console.error("Error saving favorite recipe:", error);
     throw new Error("Error saving favorite recipe");
@@ -124,7 +120,6 @@ export const updateUserProfile = async (updatedUser: {
       displayName: updatedUser.displayName,
       email: updatedUser.email,
     });
-    console.log("User profile updated successfully!");
     return true;
   } catch (error) {
     console.error("Error updating user profile:", error);

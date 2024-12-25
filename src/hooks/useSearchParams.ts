@@ -53,9 +53,7 @@ export const useSearchParams = () => {
 
   useEffect(() => {
     if (shouldFetch) {
-      const fetchData = async () => {
-        console.log("Making API call with:", debouncedSearchParams);
-      };
+      const fetchData = async () => {};
 
       fetchData();
     }

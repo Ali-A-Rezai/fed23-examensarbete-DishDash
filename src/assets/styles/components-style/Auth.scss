@@ -4,4 +4,20 @@
   align-items: center;
   background-color: #f5f5f5;
   padding: 5rem;
+  height: 100vh;
+}
+
+.auth-container {
+  @media (max-width: 600px) {
+    padding: 20px;
+  }
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container .MuiTextField-root {
+  margin-bottom: 10px;
 }

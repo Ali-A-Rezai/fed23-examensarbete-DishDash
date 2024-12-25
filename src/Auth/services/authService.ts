@@ -62,7 +62,6 @@ export const loginOrSignupWithGoogle = async (): Promise<User> => {
     const userRef = doc(db, "users", user.uid);
     const docSnap = await getDoc(userRef);
 
-    // If the document doesn't exist (first-time login), create it
     if (!docSnap.exists()) {
       await setDoc(userRef, {
         firstName: user.displayName?.split(" ")[0] || "",
@@ -70,13 +69,11 @@ export const loginOrSignupWithGoogle = async (): Promise<User> => {
         email: user.email,
       });
     } else {
-      // If the document exists, check if firstName and lastName need updating
       const userData = docSnap.data();
 
       const newFirstName = user.displayName?.split(" ")[0] || "";
       const newLastName = user.displayName?.split(" ").slice(1).join(" ") || "";
 
-      // Only update if the values are different
       if (
         userData.firstName !== newFirstName ||
         userData.lastName !== newLastName
@@ -89,7 +86,7 @@ export const loginOrSignupWithGoogle = async (): Promise<User> => {
             email: user.email,
           },
           { merge: true }
-        ); // Use merge to only update fields, not overwrite the whole document
+        );
       }
     }
 

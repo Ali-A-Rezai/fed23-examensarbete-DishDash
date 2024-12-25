@@ -6,9 +6,9 @@ import {
   Typography,
   Divider,
   CircularProgress,
+  Grid,
 } from "@mui/material";
 import GoogleIcon from "../../assets/images/Google_logo.png";
-import { Container } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../Auth/context/AuthContext";
 import "../../assets/styles/components-style/Auth.scss";
@@ -57,100 +57,105 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container className="auth-container">
-      <Box
-        sx={{
-          maxWidth: 400,
-          margin: "auto",
-          mt: 8,
-          padding: 4,
-          borderRadius: 2,
-          boxShadow: 3,
-          textAlign: "center",
-          backgroundColor: "white",
-        }}
-      >
-        <Typography variant="h4" sx={{ mb: 2 }}>
-          Login
-        </Typography>
+    <Grid container justifyContent="center" alignItems="center" spacing={2}>
+      <Grid item xs={12} sm={8} md={6} lg={4}>
+        <Box
+          sx={{
+            maxWidth: 400,
+            margin: "auto",
+            mt: 1,
+            padding: 4,
+            borderRadius: 2,
+            boxShadow: (theme) => ({
+              xs: 0,
+              sm: theme.shadows[3],
+            }),
+            textAlign: "center",
+            backgroundColor: "white",
+          }}
+        >
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            Login
+          </Typography>
 
-        <form onSubmit={handleLoginClick}>
-          <TextField
-            label="Email"
-            type="email"
-            fullWidth
-            sx={{ mb: 2 }}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
-          />
-          <TextField
-            label="Password"
-            type="password"
-            fullWidth
-            sx={{ mb: 2 }}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-          />
+          <form onSubmit={handleLoginClick}>
+            <TextField
+              label="Email"
+              type="email"
+              fullWidth
+              sx={{ mb: 2 }}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+            />
+            <TextField
+              label="Password"
+              type="password"
+              fullWidth
+              sx={{ mb: 2 }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
+
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mb: 2 }}
+              type="submit"
+              disabled={authLoading}
+            >
+              {authLoading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Login"
+              )}
+            </Button>
+          </form>
+
+          <Divider sx={{ my: 2 }}>OR</Divider>
 
           <Button
-            variant="contained"
-            color="primary"
+            variant="outlined"
+            color="secondary"
             fullWidth
-            sx={{ mb: 2 }}
-            type="submit"
+            onClick={handleGoogleLoginClick}
             disabled={authLoading}
+            startIcon={
+              <img
+                src={GoogleIcon}
+                alt="Google logo"
+                style={{ width: 24, height: 24 }}
+              />
+            }
           >
             {authLoading ? (
               <CircularProgress size={24} color="inherit" />
             ) : (
-              "Login"
+              "Login with Google"
             )}
           </Button>
-        </form>
 
-        <Divider sx={{ my: 2 }}>OR</Divider>
-
-        <Button
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          onClick={handleGoogleLoginClick}
-          disabled={authLoading}
-          startIcon={
-            <img
-              src={GoogleIcon}
-              alt="Google logo"
-              style={{ width: 24, height: 24 }}
-            />
-          }
-        >
-          {authLoading ? (
-            <CircularProgress size={24} color="inherit" />
-          ) : (
-            "Login with Google"
-          )}
-        </Button>
-
-        <Typography
-          variant="body2"
-          sx={{ mt: 2 }}
-          color="textSecondary"
-          pt="40px"
-        >
-          Don't have an account?{" "}
           <Typography
-            component="span"
-            color="primary"
-            sx={{ cursor: "pointer", fontWeight: "bold" }}
-            onClick={() => navigate("/signup")}
+            variant="body2"
+            sx={{ mt: 2 }}
+            color="textSecondary"
+            pt="40px"
           >
-            Signup here
+            Don't have an account?{" "}
+            <Typography
+              component="span"
+              color="primary"
+              sx={{ cursor: "pointer", fontWeight: "bold" }}
+              onClick={() => navigate("/signup")}
+            >
+              Signup here
+            </Typography>
           </Typography>
-        </Typography>
-      </Box>
-    </Container>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 
