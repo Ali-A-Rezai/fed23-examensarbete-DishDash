@@ -1,0 +1,217 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+html,
+body {
+  scrollbar-width: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+}
+
+.homepage {
+  .hero {
+    height: 100vh;
+    background: url("../../images/hero-image.jpg") no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    color: white;
+    padding: 0 20px;
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .get-started-btn {
+      font-size: 1.2rem;
+      padding: 10px 30px;
+      border-radius: 5px;
+    }
+  }
+
+  .about-section {
+    padding: 80px 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .section-description {
+      font-size: 1.2rem;
+      color: #6c757d;
+    }
+  }
+
+  .about-section,
+  .popular-recipes {
+    padding: 80px 20px;
+    text-align: center;
+  }
+
+  @media (max-width: 1200px) {
+    .hero-title {
+      font-size: 3rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.4rem;
+    }
+
+    .get-started-btn {
+      font-size: 1rem;
+      padding: 8px 25px;
+    }
+
+    .about-section {
+      padding: 70px 20px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+    }
+
+    .section-description {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .hero-title {
+      font-size: 2.8rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+    }
+
+    .get-started-btn {
+      font-size: 1rem;
+      padding: 8px 20px;
+    }
+
+    .about-section {
+      padding: 60px 20px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .section-description {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 0 15px;
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+
+      .get-started-btn {
+        font-size: 0.95rem;
+        padding: 8px 15px;
+      }
+    }
+
+    .about-section {
+      padding: 50px 20px;
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .section-description {
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero {
+      padding: 0 10px;
+
+      .hero-title {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+
+      .get-started-btn {
+        font-size: 0.85rem;
+        padding: 6px 15px;
+      }
+    }
+
+    .about-section {
+      padding: 40px 20px;
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .section-description {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+    }
+
+    .get-started-btn {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+    }
+
+    .about-section {
+      padding: 30px 10px;
+
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .section-description {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

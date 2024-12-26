@@ -1,0 +1,60 @@
+.navbar-overlay {
+  position: absolute;
+  z-index: 10;
+  padding: 15px 0px;
+  width: 100%;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-around;
+  text-decoration: none;
+  top: 0;
+
+  .logo {
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    text-decoration: none;
+    margin-right: 180px;
+    transition: color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      color: tomato;
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      color: #f8f9fa;
+      font-weight: bold;
+    }
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 1.1rem;
+    color: white;
+    padding: 0 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    text-decoration: none;
+
+    &:hover {
+      color: tomato;
+    }
+  }
+}
+
+.navbar-overlay.scrolled {
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#profile {
+  position: absolute;
+  margin-left: 30px;
+}
