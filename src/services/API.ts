@@ -156,3 +156,35 @@ export const fetchFilteredRecipes = async ({
   const url = `${SPOONACULAR_API_URL}/complexSearch?${params.toString()}`;
   return await fetchApi<RecipeSearchResults>(url);
 };
+
+export const getSimilarRecipes = async (
+  recipeId: number
+): Promise<Recipe[]> => {
+  const url = `${SPOONACULAR_API_URL}/${recipeId}/similar?apiKey=${apiKey}&number=4`;
+  const recipes = await fetchApi<Recipe[]>(url);
+
+  // Add the full image URL to each recipe object
+  const recipesWithImage = recipes.map((recipe) => ({
+    ...recipe,
+    image: `https://spoonacular.com/recipeImages/${recipe.id}-636x393.${recipe.imageType}`,
+  }));
+
+  return recipesWithImage;
+};
+
+// Fetch Nutrition Widget HTML
+export const getRecipeNutritionWidget = async (
+  recipeId: number,
+  useDefaultCss: boolean = true
+): Promise<string> => {
+  const url = `${SPOONACULAR_API_URL}/${recipeId}/nutritionWidget?apiKey=${apiKey}&defaultCss=${useDefaultCss}`;
+  try {
+    const response = await axios.get<string>(url, {
+      headers: { Accept: "text/html" },
+    });
+    return response.data; // HTML content as a string
+  } catch (error) {
+    console.error("Error fetching nutrition widget:", error);
+    throw new Error("Unable to fetch nutrition widget");
+  }
+};

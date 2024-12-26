@@ -70,7 +70,11 @@ const FavoritesPage: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <LoadingComponent message="Loading your favorite recipes..." />;
+    return (
+      <div className="loading-container">
+        <LoadingComponent message="Loading..." />
+      </div>
+    );
   }
 
   if (error) {

@@ -11,6 +11,7 @@ import Login from "./pages/AuthPages/LoginPage";
 import Signup from "./pages/AuthPages/SignUpPage";
 import RecipesPage from "./pages/RecipesPage";
 import FavoritesPage from "./pages/FavoritesPage";
+import RecipeDetails from "./components/RecipeDetails";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/recipes" element={<RecipesPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/recipe/:recipeId" element={<RecipeDetails />} />
 
           <Route
             path="/profile"

@@ -28,11 +28,20 @@ export interface RecipeDetails {
   id: number;
   title: string;
   summary: string;
-  ingredients: {
+  ingredients?: {
     name: string;
     amount: number;
     unit: string;
   }[];
+
+  extendedIngredients: {
+    id: number;
+    original: string;
+    name: string;
+    amount: number;
+    unit: string;
+  }[];
+
   instructions: string;
   healthScore: number;
   preparationMinutes: number;
