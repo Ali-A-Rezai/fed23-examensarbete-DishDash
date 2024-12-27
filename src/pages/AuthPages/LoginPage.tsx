@@ -63,7 +63,8 @@ const Login: React.FC = () => {
           sx={{
             maxWidth: 400,
             margin: "auto",
-            mt: 1,
+            mt: 5,
+            mb: 7,
             padding: 4,
             borderRadius: 2,
             boxShadow: (theme) => ({
